@@ -8,7 +8,7 @@ import(
 	"github.com/FinDataCatcher/base"
 )
 
-
+//http://stock.gtimg.cn/data/index.php?appn=detail&action=data&c=sh600550
 
 const (
 	_TX_DETAIL_DATA_PREFIX = "v_detail_data_"
