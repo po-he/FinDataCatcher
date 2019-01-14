@@ -44,7 +44,7 @@ func Stof64(v string) float64 {
 	return 0
 }
 
-func DateString2LocalUnixTime(s string, stringFormatParser func (string) []string, ms bool) int64 {
+func DateString2LocalNanoUnixTime(s string, stringFormatParser func (string) []string) int64 {
 	slices := stringFormatParser(s)
 	if slices == nil || len(slices) != 7 {
 		return -1
@@ -58,11 +58,7 @@ func DateString2LocalUnixTime(s string, stringFormatParser func (string) []strin
 	sec := StoInt(slices[6])
 	loc, _ := time.LoadLocation("Local") 
 	t := time.Date(year, time.Month(month), day, hour, min, sec, 0, loc)
-	if true == ms {
-		return int64(t.UnixNano() / 1000000)  // 毫秒
-	} else {
-		return int64(t.UnixNano() / 1000000000)  // 秒
-	}
+	return int64(t.UnixNano())
 }
 
 /*
@@ -75,7 +71,7 @@ func NormalDate2LocalUnixTimeMs(s string) int64 {
 				return re.FindStringSubmatch(s)
 			  }
 
-	return DateString2LocalUnixTime(s, parser, true)
+	return DateString2LocalNanoUnixTime(s, parser) / 1000000
 }
 
 /*
@@ -88,5 +84,17 @@ func NormalDate2LocalUnixTimeSec(s string) int64 {
 				return re.FindStringSubmatch(s)
 			  }
 
-	return DateString2LocalUnixTime(s, parser, false)
+	return DateString2LocalNanoUnixTime(s, parser) / 1000000000
+}
+
+/*
+*/
+func CurrentLocalDate() string {
+	t := time.Now().Local()
+	return strings.Split(t.Format("2006-01-02 15:04:05"), " ")[0]
+}
+
+func CurrentLocalTime() string {
+	t := time.Now().Local()
+	return t.Format("2006-01-02 15:04:05")
 }
