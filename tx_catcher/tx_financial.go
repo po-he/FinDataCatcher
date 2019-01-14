@@ -11,7 +11,7 @@ import(
 //http://stock.gtimg.cn/data/index.php?appn=detail&action=data&c=sh600550
 
 const (
-	_TX_DETAIL_DATA_PREFIX = "v_detail_data_"
+	_TX_TICK_DETAIL_PREFIX = "v_detail_data_"
 )
 
 /*
@@ -95,7 +95,7 @@ func TX_parse_stock_tick_detail_response(resp string, dateYMD string) (bool, bas
 		return false, code, index, detail
 	}
 
-	prefix := strings.Split(v[0], _TX_DETAIL_DATA_PREFIX)
+	prefix := strings.Split(v[0], _TX_TICK_DETAIL_PREFIX)
 	if len(prefix) != 2 {
 		return false, code, index, detail
 	}
