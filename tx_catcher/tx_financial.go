@@ -12,6 +12,7 @@ import(
 
 const (
 	_TX_TICK_DETAIL_PREFIX = "v_detail_data_"
+	_TX_STATISTIC_DATA_PREFIX = ""
 )
 
 /*
@@ -74,6 +75,18 @@ func tx_parse_stock_code(s string) base.StockCode {
 
 /*
 @param：
+code ：交易所簡碼+6位編號
+index ：索引
+    
+@out:
+tick數據請求url
+*/
+func TX_create_stock_tick_detail_url(code string, index int) string {
+	return fmt.Sprintf("http://stock.gtimg.cn/data/index.php?appn=detail&action=data&c=%v&p=%v", code, index)
+}
+
+/*
+@param：
 resp: 	v_detail_data_sz002451=[1,"70/09:33:27/12.78/-0.01/251/321027/S|71/09:33:31/12.80/0.02/392/501495/B"]
 格式：前缀=[索引, "分时成交信息|分时成交信息"]
 
@@ -127,4 +140,33 @@ func TX_parse_stock_tick_detail_response(resp string, dateYMD string) (bool, bas
 	}
 	
 	return true, code, index, detail
+}
+
+/*
+@param：
+code ：交易所簡碼+6位編號
+    
+@out:
+統計數據請求url
+*/
+func TX_create_stock_statistic_data_url(code string) string {
+	//return fmt.Sprintf("http://stock.gtimg.cn/data/index.php?appn=detail&action=data&c=%v&p=%v", code, index)
+	return ""
+}
+
+/*
+@param：
+resp: 	v_detail_data_sz002451=[1,"70/09:33:27/12.78/-0.01/251/321027/S|71/09:33:31/12.80/0.02/392/501495/B"]
+格式：前缀=[索引, "分时成交信息|分时成交信息"]
+
+dateYMD: "2017-12-01"
+    
+@out:
+1-true/false
+2-代码
+3-索引
+4-分时数据列表
+*/
+func TX_parse_stock_statistic_data_response(resp string, dateYMD string) (bool, base.StockCode) {
+	return false, base.StockCode{}
 }
