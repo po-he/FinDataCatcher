@@ -6,7 +6,7 @@ BUILD_DIR = ${PROJ_DIR}/build
 #GO=go
 #GOPATH := $(shell pwd)
 
-APPS = tx_catcher_main tx_catcher_test
+APPS = tx_catcher_test
 ALL: $(APPS)
 
 #$(BUILD_DIR)/tx_catcher_main:	$(wildcard apps/tx_catcher_main/*.go tx_catcher/*.go utils/*/*.go)
