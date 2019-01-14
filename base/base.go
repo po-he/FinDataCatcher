@@ -65,9 +65,9 @@ type StockCode struct {
 
 func (c StockCode) String() string {
 	if STOCK_MARKET_ID_SZ == c.Market {
-		return fmt.Sprintf("%v %06d", STOCK_MARKET_STR_SZ, c.Code)
+		return fmt.Sprintf("%v%06d", STOCK_MARKET_STR_SZ, c.Code)
 	} else if STOCK_MARKET_ID_SH == c.Market {
-		return fmt.Sprintf("%v %06d", STOCK_MARKET_STR_SH, c.Code)
+		return fmt.Sprintf("%v%06d", STOCK_MARKET_STR_SH, c.Code)
 	} else {
 		return ""
 	}
@@ -76,12 +76,12 @@ func (c StockCode) String() string {
 func (c StockCode) Detail() string {
 	if STOCK_MARKET_ID_SZ == c.Market {
 		if c.Code < STOCK_BLOCK_CY_BASE_ID {
-			return fmt.Sprintf("%v %06d %v", STOCK_MARKET_STR_SZ, c.Code, STOCK_BLOCK_ID_SZ_A)
+			return fmt.Sprintf("%v%06d %v", STOCK_MARKET_STR_SZ, c.Code, STOCK_BLOCK_ID_SZ_A)
 		} else {
-			return fmt.Sprintf("%v %06d %v", STOCK_MARKET_STR_SZ, c.Code, STOCK_BLOCK_ID_CY)
+			return fmt.Sprintf("%v%06d %v", STOCK_MARKET_STR_SZ, c.Code, STOCK_BLOCK_ID_CY)
 		}
 	} else if STOCK_MARKET_ID_SH == c.Market {
-		return fmt.Sprintf("%v %06d %v", STOCK_MARKET_STR_SH, c.Code, STOCK_BLOCK_ID_SH_A)
+		return fmt.Sprintf("%v%06d %v", STOCK_MARKET_STR_SH, c.Code, STOCK_BLOCK_ID_SH_A)
 	} else {
 		return ""
 	}
@@ -95,5 +95,4 @@ type StockTickDealDetail struct {
 	Total     int64   "json:Total"
 	Side      int8    "json:Side"
 }
-
 
