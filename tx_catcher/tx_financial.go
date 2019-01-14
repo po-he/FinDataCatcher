@@ -147,9 +147,9 @@ func TX_parse_stock_tick_detail_response(resp string, dateYMD string) (bool, bas
 code ：交易所簡碼+6位編號
     
 @out:
-統計數據請求url
+行情數據請求url
 */
-func TX_create_stock_statistic_data_url(code string) string {
+func TX_create_stock_quotes_detail_url(code string) string {
 	//return fmt.Sprintf("http://stock.gtimg.cn/data/index.php?appn=detail&action=data&c=%v&p=%v", code, index)
 	return ""
 }
@@ -167,6 +167,12 @@ dateYMD: "2017-12-01"
 3-索引
 4-分时数据列表
 */
-func TX_parse_stock_statistic_data_response(resp string, dateYMD string) (bool, base.StockCode) {
+func TX_parse_stock_quotes_detail_response(resp string, dateYMD string) (bool, base.StockCode) {
 	return false, base.StockCode{}
+
+
+
+
+
+
 }

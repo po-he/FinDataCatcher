@@ -10,10 +10,10 @@ import(
 	"io/ioutil"
 )
 
-////
+//// TODO : 
 // 1. multi-goroutine 同時寫日志會不會交錯
-
 // 
+
 var (
 	DEFAULT_TIMEOUT_SECOND = 15
 )
