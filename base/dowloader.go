@@ -8,6 +8,8 @@ import(
 	"time"
 	"net/http"
 	"io/ioutil"
+
+	"sync"
 )
 
 //// TODO : 
@@ -22,7 +24,6 @@ type DailyDownloadeInfo struct {
 	//Date  
 	CodeStr  string
 	LastTickDataIndex int32
-
 }
 
 func EncodeDailyDownloadInfo(info *DailyDownloadeInfo) ([]byte, error) {
@@ -121,8 +122,6 @@ func (ctx *FinDataCatcherJobContext) SaveDailyDownloadInfo() {
 	*/
 } 
 
-
-
 type FinDataHttpCatcher struct {
 	dispatchChan chan *FinDataCatcherJobContext
 	Id           int
@@ -159,7 +158,12 @@ func (catcher *FinDataHttpCatcher) AssignJobContext(ctx *FinDataCatcherJobContex
 
 func (catcher *FinDataHttpCatcher) Idle() {
 	// 把自己放回調度隊列末尾
+	d := GetFinDataCatcherD()
+	if nil == d {
+		return
+	}
 
+	d.AddHttpCatcher(catcher)
 }
 
 func (catcher *FinDataHttpCatcher) Run() {
@@ -176,4 +180,65 @@ func (catcher *FinDataHttpCatcher) Run() {
 			}	
 		}
 	}	
+}
+
+/////
+type FinDataCatcherMng struct {
+	_catcher_queue []*FinDataHttpCatcher
+	_catcher_queue_lock sync.Mutex
+
+	_jobs_ctx_queue []*FinDataCatcherJobContext
+	_jobs_ctx_queue_lock     sync.Mutex
+}
+
+func (d *FinDataCatcherMng) Init(num int) {
+	d._catcher_queue = make([]*FinDataHttpCatcher, 0)
+	d._jobs = make([]*FinDataCatcherJobContext, 0)
+
+	// 
+	catcher := CreateFinDataHttpCatcher()
+	d.AddHttpCatcher(catcher)
+	go catcher.Run()
+}
+
+func (d *FinDataCatcherMng) AddJobContext(ctx *FinDataCatcherJobContext) {
+	defer _jobs_ctx_queue_lock.Unlock()
+
+	d._jobs_ctx_queue_lock.Lock()
+	d._jobs_ctx_queue = append(d._jobs_ctx_queue, ctx)	
+}
+
+func (d *FinDataCatcherMng) AddHttpCatcher(c *FinDataHttpCatcher) {
+	defer d._catcher_queue_lock.Unlock()
+
+	d._catcher_queue_lock.Lock()
+	d._catcher_queue = append(d._catcher_queue, c)
+}
+
+func (d *FinDataCatcherMng) AddHttpCatcher(c *FinDataHttpCatcher) {
+	defer d._catcher_queue_lock.Unlock()
+
+	d._catcher_queue_lock.Lock()
+	d._catcher_queue = append(d._catcher_queue, c)
+}
+
+func (d *FinDataCatcherMng) Dispatch(c *FinDataHttpCatcher) {
+	// defer d._catcher_queue_lock.Unlock()
+
+	// d._catcher_queue_lock.Lock()
+	// d._catcher_queue = append(d._catcher_queue, c)
+}
+
+func (d *FinDataCatcherMng) GetJobContextNum() int {
+	defer d._jobs_ctx_queue_lock.Unlock()
+
+	d._jobs_ctx_queue_lock.Lock()
+	return len(d._jobs_ctx_queue)
+}
+
+func (d *FinDataCatcherMng) GetHttpCatcherNum() int {
+	defer d._catcher_queue_lock.Unlock()
+
+	d._catcher_queue_lock.Lock()
+	return len(d._catcher_queue)
 }

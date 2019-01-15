@@ -26,5 +26,7 @@ func (j tx_catcher_quotes_data_job) ProcessResponse(ctx *base.FinDataCatcherJobC
 	// download_info := ctx.DownloadInfo
 
 	// YY-MM-DD 前缀
+
+	// 
 	return false
 }
