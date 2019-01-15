@@ -88,11 +88,35 @@ func (c StockCode) Detail() string {
 }
 
 type StockTickDealDetail struct {
-	Timestamp int64   "json:Timestamp"
-	Time      string  "json:Time"
-	Price     float64 "json:Price"
-	Amount    int64   "json:Amount"
-	Total     int64   "json:Total"
-	Side      int8    "json:Side"
+	Timestamp int64   `json:"Timestamp"`
+	Time      string  `json:"Time"`
+	Price     float64 `json:"Price"`
+	Amount    int64   `json:"Amount"`
+	Total     int64   `json:"Total"`
+	Side      int8    `json:"Side"`
 }
 
+
+
+type StockQuotesDeatil struct {
+	Timestamp int64 `json:Timestamp`
+	Open float64  `json:"Open"`
+	Close float64 `json:"Close"`
+	Hight float64 `json:"Hight"`
+	Low   float64 `json:"Low"`
+
+	LastClose float64 `json:LostClose`
+	Price float64 `json:"Price"`
+
+	Amount int64  `json:"Amount"`
+	Inside int64  `json:"Inside"`
+	Outside int64 `json:"Outsize"`
+	CeilPrice float64 `json:"CeilPrice"`   // 漲停
+	FloorPrice   float64 `json:"FloorPrice"`  // 跌停
+	TR      float64 `json:"TurnoverRate"`  // 換手率
+	Amplitude float64 `json:"Amplitude"`   // 振幅
+	PE      float64 `json:"PE"`            // 市盈率
+	PB      float64 `json:"PB"`			   // 市净率
+	MarketValue float64 `json:"MarketValue"`  // 总市值
+	CirculatedValue float64 `json:"CirculatedValue"`  // 流通总市值
+ }
