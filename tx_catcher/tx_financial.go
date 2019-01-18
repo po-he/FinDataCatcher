@@ -279,6 +279,7 @@ func TX_parse_stock_quotes_detail_response(resp string) (bool, base.StockCode, b
 	
 	// 30 YYMMDDHHMMSS
 	quotes.Timestamp = tx_quotes_timestring_to_timestamp(payload_list[30]) 
+	//fmt.Printf("Payload date %v\n", payload_list[30])
 
 	// 38: 换手率
 	quotes.TR = utils.Stof64(payload_list[38]) // 換手率
