@@ -6,6 +6,7 @@ import (
 	"github.com/FinDataCatcher/base"
 	"github.com/FinDataCatcher/tx_catcher"
 	"github.com/FinDataCatcher/utils"
+	"github.com/FinDataCatcher/data_catcher"
 	
 	//"github.com/syndtr/goleveldb/leveldb"
 )
@@ -13,7 +14,7 @@ import (
 type tx_catcher_tick_data_job struct {}
 
 
-func (j tx_catcher_tick_data_job) RequestData(ctx *base.FinDataCatcherJobContext)  (string, error)	{
+func (j tx_catcher_tick_data_job) RequestData(ctx *data_catcher.FinDataCatcherJobContext)  (string, error)	{
 	//return fmt.Sprintf("http://stock.gtimg.cn/data/index.php?appn=detail&action=data&c=%v&p=%v", 1), bkl
 	bytes, err :=  base.DoHttpRequest(ctx.Url, 0)
 	if nil != err {
@@ -23,7 +24,7 @@ func (j tx_catcher_tick_data_job) RequestData(ctx *base.FinDataCatcherJobContext
 	return string(bytes), nil
 }
 	
-func (j tx_catcher_tick_data_job) ProcessResponse(ctx *base.FinDataCatcherJobContext, resp string) bool {
+func (j tx_catcher_tick_data_job) ProcessResponse(ctx *data_catcher.FinDataCatcherJobContext, resp string) bool {
 	//ctx
 	//info *DailyDownloadeInfo
 	download_info := ctx.DownloadInfo
