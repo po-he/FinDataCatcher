@@ -5,6 +5,7 @@ import(
 	"strconv"
 	"time"
 	"regexp"
+	"fmt"
 )
 
 func StoInt(v string) int {
@@ -98,3 +99,28 @@ func CurrentLocalTime() string {
 	t := time.Now().Local()
 	return t.Format("2006-01-02 15:04:05")
 }
+
+/*
+时间戳转年月日
+*/
+func Ms2LocalTime(ms int64) time.Time {
+	sec := ms / 1e3
+	nsec := (ms % 1e3) * 1e6
+	return time.Unix(sec, nsec).Local()
+}
+
+func Ms2LocalDateString(ms int64) string {
+	tm := Ms2LocalTime(ms)
+	year, mon, day := tm.Local().Date()
+	hour, min, sec := tm.Local().Clock()
+	return fmt.Sprintf("%4d-%02d-%02d %02d:%02d:%02d", year, mon, day, hour, min, sec)
+}
+
+func Sec2LocalTime(sec int64) time.Time {
+	return Ms2LocalTime(sec * 1000)
+}
+
+func Sec2LocalDataString(sec int64) string {
+	return Ms2LocalDateString(sec * 1000)
+}
+
